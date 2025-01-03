@@ -1,6 +1,6 @@
 <template>
   <div
-    class="circle d-flex justify-center align-center position-absolute bg-background rounded-circle"
+    class="circle d-flex justify-center align-center bg-background rounded-circle"
   >
     <!-- note globale du film -->
     <v-progress-circular
@@ -36,9 +36,7 @@ const color = computed(() => {
 
 <style scoped>
 .circle {
-  height: 48px;
-  width: 48px;
-  top: 12px;
-  right: 12px;
+  height: 40px;
+  width: 40px;
 }
 </style>

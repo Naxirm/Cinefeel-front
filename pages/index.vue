@@ -4,7 +4,7 @@
       Résultats pour "{{ moviesStore.lastSearchString }}"
     </h1>
 
-    <h1 class="mt-8 mb-8" v-else>Dernières sorties</h1>
+    <h1 class="mt-8 mb-8" v-else>A découvrir</h1>
 
     <AtomsSkeleton v-if="moviesStore.loading" />
 
@@ -21,9 +21,31 @@
 </template>
 
 <script setup lang="ts">
+import { watch } from "vue";
 const moviesStore = useMoviesStore();
 
+const route = useRoute();
+
 onBeforeMount(() => {
-  moviesStore.featureMovies();
+  const searchQuery = route.query.search as string;
+  if (searchQuery) {
+    moviesStore.searchString = searchQuery;
+    moviesStore.searchMovies();
+  } else {
+    moviesStore.featureMovies();
+  }
 });
+
+watch(
+  () => route.query.search,
+  (newSearch) => {
+    if (newSearch) {
+      moviesStore.searchString = newSearch as string;
+      moviesStore.searchMovies();
+    } else {
+      moviesStore.featureMovies();
+    }
+  },
+  { immediate: true }
+);
 </script>

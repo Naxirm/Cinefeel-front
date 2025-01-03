@@ -1,7 +1,12 @@
 <template>
   <v-app-bar color="primary">
     <v-container class="d-flex align-center text-white">
-      <v-app-bar-title>Logo à placer ici</v-app-bar-title>
+      <v-app-bar-title
+        class="cursor-pointer"
+        @click="router.push({ path: '/' })"
+      >
+        Logo à placer ici
+      </v-app-bar-title>
       <v-spacer></v-spacer>
       <v-text-field
         v-model="moviesStore.searchString"
@@ -20,9 +25,14 @@
 <script setup lang="ts">
 const moviesStore = useMoviesStore();
 
+const router = useRouter();
+
 const handleSearch = () => {
-  if (moviesStore.searchString !== '') {
-    moviesStore.searchMovies();
+  if (moviesStore.searchString !== "") {
+    router.push({
+      path: "/",
+      query: { search: moviesStore.searchString },
+    });
   } else {
     moviesStore.featureMovies();
   }
