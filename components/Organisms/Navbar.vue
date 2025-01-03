@@ -10,8 +10,8 @@
         label="Rechercher un film..."
         append-inner-icon="mdi-magnify"
         hide-details
-        @click:append-inner="moviesStore.searchString != '' ? moviesStore.searchMovies() : moviesStore.featureMovies()"
-        @keyup.enter="moviesStore.searchString != '' ? moviesStore.searchMovies() : moviesStore.featureMovies()"
+        @click:append-inner="handleSearch()"
+        @keyup.enter="handleSearch()"
       ></v-text-field>
     </v-container>
   </v-app-bar>
@@ -19,4 +19,12 @@
 
 <script setup lang="ts">
 const moviesStore = useMoviesStore();
+
+const handleSearch = () => {
+  if (moviesStore.searchString !== '') {
+    moviesStore.searchMovies();
+  } else {
+    moviesStore.featureMovies();
+  }
+};
 </script>

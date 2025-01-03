@@ -1,12 +1,14 @@
 <template>
   <v-container>
-    <h1 class="mt-8 mb-8" v-if="moviesStore.searchString != ''">Résultats pour "{{ moviesStore.searchString }}"</h1>
+    <h1 class="mt-8 mb-8" v-if="moviesStore.lastSearchString !== ''">
+      Résultats pour "{{ moviesStore.lastSearchString }}"
+    </h1>
 
-    <h1 class="mt-8 mb-8" v-else>En vedette aujourd'hui</h1>
+    <h1 class="mt-8 mb-8" v-else>Dernières sorties</h1>
 
-    <AtomsSkeleton v-if="moviesStore.loading"/>
+    <AtomsSkeleton v-if="moviesStore.loading" />
 
-    <MoleculesMovieCard v-else/>
+    <MoleculesMovieCard v-else />
 
     <v-pagination
       v-if="moviesStore.movies?.total_pages !== 1"
@@ -15,7 +17,6 @@
       class="my-4"
       @update:model-value="moviesStore.searchMovies"
     ></v-pagination>
-    
   </v-container>
 </template>
 

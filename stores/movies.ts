@@ -4,7 +4,8 @@ import type { Movies } from '~/interfaces/Movies.interface';
 export const useMoviesStore = defineStore("movies", () => {
     const runtimeConfig = useRuntimeConfig();
 
-    const searchString: Ref<string> = ref("");
+    const searchString = ref("" as string);
+    const lastSearchString = ref("" as string);
     const movies: Ref<Movies | null> = ref(null);
     const messageStore = useMessageStore();
 
@@ -18,6 +19,9 @@ export const useMoviesStore = defineStore("movies", () => {
             const response: Movies = await $fetch(
             `https://api.themoviedb.org/3/discover/movie?page=${page.value}&query=${searchString.value}&language=fr-FR&api_key=${runtimeConfig.public.apiKey}`
             );
+
+            lastSearchString.value = "";
+            
             movies.value = {
                 ...response,
                 total_pages: 1,
@@ -49,6 +53,8 @@ export const useMoviesStore = defineStore("movies", () => {
             `https://api.themoviedb.org/3/search/movie?page=${page.value}&query=${searchString.value}&language=fr-FR&api_key=${runtimeConfig.public.apiKey}`
             );
 
+            lastSearchString.value = searchString.value;
+
             movies.value = {
                 ...response,
                 results: response.results.map((movie: any) => {
@@ -69,5 +75,5 @@ export const useMoviesStore = defineStore("movies", () => {
             loading.value = false;
         }
     }
-    return { movies, page, loading, featureMovies, searchString, searchMovies }
+    return { movies, page, loading, featureMovies, searchString, lastSearchString, searchMovies }
 })
